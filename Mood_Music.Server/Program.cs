@@ -1,11 +1,36 @@
+using DotNetEnv;
+using Mood_Music.Server.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
 
+if (environment == "Development")
+{
+    Env.Load(".env.development");
+}
+else
+{
+    Env.Load(".env");
+}
+
+// Add services to the container.
+builder.Services.AddHttpClient();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<WeatherService>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin",
+        builder =>
+        {
+            builder.WithOrigins(Env.GetString("FRONTEND_URL"))
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
@@ -20,6 +45,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowOrigin");
 
 app.UseAuthorization();
 
