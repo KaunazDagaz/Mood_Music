@@ -1,4 +1,4 @@
---- version 0.0.1-beta
+## version 0.0.1-beta
 
 - Created class-model for weather data;
 - Created service to receive and process weather data;
