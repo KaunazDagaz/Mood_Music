@@ -1,4 +1,5 @@
 import './App.css';
+import LastFmMusic from './LastFm/LastFmMusic';
 import Weather from './Weather/Weather';
 
 function App() {
@@ -6,6 +7,7 @@ function App() {
         <div>
             <h1>Welcome to MoodMusic</h1>
             <Weather />
+            <LastFmMusic />
         </div>
     );
 }
