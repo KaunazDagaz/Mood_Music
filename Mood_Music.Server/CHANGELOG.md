@@ -1,4 +1,10 @@
-## version 0.0.1-beta
+## version 0.2.0-beta
+
+- Created class-model for music data;
+- Created service to receive and process music data from Last.fm API;
+- Created controller to send music data to the frontend;
+
+## version 0.1.0-beta
 
 - Created class-model for weather data;
 - Created service to receive and process weather data;

@@ -8,6 +8,7 @@ namespace Mood_Music.Server.Controllers
     public class WeatherController : ControllerBase
     {
         private readonly WeatherService weatherService;
+
         public WeatherController(WeatherService weatherService)
         {
             this.weatherService = weatherService;

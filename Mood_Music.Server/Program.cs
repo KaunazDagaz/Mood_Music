@@ -20,6 +20,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<WeatherService>();
+builder.Services.AddScoped<LastFmService>();
 
 builder.Services.AddCors(options =>
 {

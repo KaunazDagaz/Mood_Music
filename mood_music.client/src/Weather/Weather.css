@@ -18,6 +18,13 @@
     margin: 5px 0;
 }
 
+.weather-container input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
 .weather-header {
     display: flex;
     align-items: center;
@@ -26,13 +33,6 @@
 
 .input-container {
     justify-content: center;
-}
-
-.input-container input {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
 }
 
 .button:hover {
