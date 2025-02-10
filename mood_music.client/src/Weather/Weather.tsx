@@ -13,10 +13,16 @@ const Weather = () => {
         setWeather(data);
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            fetchWeather();
+        }
+    };
+
     return (
         <div className="weather-container">
             <div className="input-container">
-                <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="Enter city"/>
+                <input type="text" value={city} onChange={(e) => setCity(e.target.value)} onKeyDown={handleKeyDown} placeholder="Enter city"/>
                 <Button onClick={fetchWeather}>Get Weather</Button>
             </div>
             {weather && (

@@ -2,10 +2,10 @@
 {
     public class LastFmModel
     {
-        public string Name { get; set; }
-        public string Url { get; set; }
-        public string ArtistName { get; set; }
-        public string ArtistUrl { get; set; }
-        public string Image { get; set; }
+        public required string Name { get; set; }
+        public required string Url { get; set; }
+        public required string ArtistName { get; set; }
+        public required string ArtistUrl { get; set; }
+        public string? Image { get; set; }
     }
 }

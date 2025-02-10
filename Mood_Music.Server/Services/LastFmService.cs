@@ -19,13 +19,13 @@ namespace Mood_Music.Server.Services
         }
 
         //need update before using
-        public async Task<string> GetTopTracksByArtistAsync(string artist)
-        {
-            var url = $"{baseUrl}/?method=artist.gettoptracks&artist={artist}&api_key={apiKey}&format=json";
-            var response = await httpClient.GetStringAsync(url);
+        //public async Task<string> GetTopTracksByArtistAsync(string artist)
+        //{
+        //    var url = $"{baseUrl}/?method=artist.gettoptracks&artist={artist}&api_key={apiKey}&format=json";
+        //    var response = await httpClient.GetStringAsync(url);
 
-            return response;
-        }
+        //    return response;
+        //}
 
         public async Task<List<LastFmModel>> GetTracksByTagsAsync(List<string> tags)
         {
