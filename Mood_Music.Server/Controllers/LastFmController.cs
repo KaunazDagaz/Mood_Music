@@ -14,14 +14,12 @@ namespace Mood_Music.Server.Controllers
             this.lastFmService = lastFmService;
         }
 
-
-        //currently not in use. Can be used later
-        [HttpGet("artist/{artist}")]
-        public async Task<IActionResult> GetTopTracksByArtist(string artist)
-        {
-            var topTracks = await lastFmService.GetTopTracksByArtistAsync(artist);
-            return Ok(topTracks);
-        }
+        //[HttpGet("artist/{artist}")]
+        //public async Task<IActionResult> GetTopTracksByArtist(string artist)
+        //{
+        //    var topTracks = await lastFmService.GetTopTracksByArtistAsync(artist);
+        //    return Ok(topTracks);
+        //}
 
         [HttpGet("tags")]
         public async Task<IActionResult> GetTracksByTags([FromQuery] string tags="chill,lo-fi") //hardcoded before implementing api for tag generating
