@@ -15,12 +15,14 @@ else
 }
 
 // Add services to the container.
+builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<WeatherService>();
 builder.Services.AddScoped<LastFmService>();
+builder.Services.AddScoped<GeminiService>();
 
 builder.Services.AddCors(options =>
 {

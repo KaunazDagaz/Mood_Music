@@ -1,4 +1,9 @@
-# version 0.2.1-pre-alpha
+## version 0.3.0-pre-alpha
+
+- Created MusicPage component to display weather and music data;
+- Modified LastFmMusic and Weather components to work together and display music depending on forecast;
+
+### version 0.2.1-pre-alpha
 
 - Updated styles and adaptivity;
 - Added key listener to weather component;

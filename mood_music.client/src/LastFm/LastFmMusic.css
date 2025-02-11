@@ -13,6 +13,10 @@
     color: #333;
 }
 
+.music-container h2 {
+    color: #333;
+}
+
 .music-container ul {
     list-style-type: none;
     padding: 0;
@@ -59,6 +63,10 @@
         font-size: 28px;
     }
 
+    .music-container h2 {
+        font-size: 20px;
+     }
+
     .music-container p {
         font-size: 18px;
     }
@@ -78,6 +86,10 @@
         font-size: 30px;
     }
 
+    .music-container h2 {
+        font-size: 22px;
+     }
+
     .music-container p {
         font-size: 18px;
     }
@@ -95,6 +107,10 @@
 @media (min-width: 560px) and (max-width: 600px) {
     .music-container h1 {
         font-size: 30px;
+    }
+
+    .music-container h2 {
+        font-size: 22px;
     }
 
     .music-container p {
@@ -120,6 +136,10 @@
         font-size: 30px;
     }
 
+    .music-container h2 {
+        font-size: 22px;
+     }
+
     .music-container p {
         font-size: 17px;
     }
@@ -141,6 +161,10 @@
 @media (min-width: 641px) {
     .music-container h1 {
         font-size: 32px;
+    }
+
+    .music-container h2 {
+       font-size: 24px;
     }
 
     .music-container p {
