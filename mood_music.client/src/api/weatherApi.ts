@@ -5,6 +5,6 @@ export const getWeather = async (city: string) => {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/weather/${city}`);
         return response.data;
     } catch (error) {
-        console.error("Error fetching weather data!", error);
+        throw error;
     }
 }

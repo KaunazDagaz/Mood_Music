@@ -1,4 +1,4 @@
-import Button from "../utils/Button";
+import Button from "../utils/Button/Button";
 import { weatherData } from "./weatherUtils";
 import "./Weather.css";
 import { useState } from "react";

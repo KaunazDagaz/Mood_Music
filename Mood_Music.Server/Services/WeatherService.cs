@@ -1,4 +1,5 @@
 ﻿using DotNetEnv;
+using Mood_Music.Server.Exceptions;
 using Mood_Music.Server.Models;
 using Newtonsoft.Json.Linq;
 
@@ -23,7 +24,17 @@ namespace Mood_Music.Server.Services
         {
             var url = $"{baseUrl}/weather?q={city}&appid={apiKey}&units=metric";
             var response = await httpClient.GetAsync(url);
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                response.EnsureSuccessStatusCode();
+            } catch (HttpRequestException ex)
+            {
+                throw new WeatherException($"Failed to fetch weather data for {city}: {ex.Message}");
+            } catch (Exception ex)
+            {
+                throw new Exception($"An unexpected error occured: {ex.Message}");
+            }
+
             var content = await response.Content.ReadAsStringAsync();
 
             return WeatherParser(content);

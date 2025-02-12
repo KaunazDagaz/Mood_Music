@@ -1,4 +1,5 @@
 ﻿using DotNetEnv;
+using Mood_Music.Server.Exceptions;
 using Mood_Music.Server.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -37,10 +38,19 @@ namespace Mood_Music.Server.Services
                 tasks.Add(httpClient.GetStringAsync(url));
             }
 
-            var responses = await Task.WhenAll(tasks);
-            var mergedTracks = MergeTrackSearchResults(responses);
+            try
+            {
+                var responses = await Task.WhenAll(tasks);
+                var mergedTracks = MergeTrackSearchResults(responses);
 
-            return TrackParser(mergedTracks);
+                return TrackParser(mergedTracks);
+            } catch (HttpRequestException ex)
+            {
+                throw new LastFmException($"Failed to fetch tracks for tags: {string.Join(", ", tags)}: {ex.Message}");
+            } catch (Exception ex)
+            {
+                throw new Exception($"An unexpected error occured: {ex.Message}");
+            }
         }
 
         private string MergeTrackSearchResults(string[] responses)

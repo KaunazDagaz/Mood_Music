@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Mood_Music.Server.Exceptions;
 using Mood_Music.Server.Services;
 
 namespace Mood_Music.Server.Controllers
@@ -32,12 +33,21 @@ namespace Mood_Music.Server.Controllers
             if (!memoryCache.TryGetValue(cacheKey, out object? tagsObj) || tagsObj is not string tags || string.IsNullOrWhiteSpace(tags))
                 return BadRequest("No tags found. Call the weather API first.");
 
-            var tagList = tags.Split(',').Select(t => t.Trim()).ToList();
-            var topTracks = await lastFmService.GetTracksByTagsAsync(tagList);
+            try
+            {
+                var tagList = tags.Split(',').Select(t => t.Trim()).ToList();
+                var topTracks = await lastFmService.GetTracksByTagsAsync(tagList);
 
-            memoryCache.Remove(cacheKey);
+                memoryCache.Remove(cacheKey);
 
-            return Ok(topTracks);
+                return Ok(topTracks);
+            } catch (LastFmException ex)
+            {
+                return StatusCode(502, new { message = ex.Message });
+            } catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpexted error occured", details = ex.Message });
+            }
         }
     }
 }
