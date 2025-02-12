@@ -1,4 +1,5 @@
 ﻿using DotNetEnv;
+using Mood_Music.Server.Exceptions;
 using Mood_Music.Server.Models;
 using Newtonsoft.Json;
 using System.Text;
@@ -39,8 +40,17 @@ namespace Mood_Music.Server.Services
             };
 
             var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await httpClient.PostAsync($"{baseUrl}?key={apiKey}", content);
-            response.EnsureSuccessStatusCode();
+            var response = await httpClient.PostAsync($"{baseUrl}?key={apiKey}", content);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+            } catch (HttpRequestException ex)
+            {
+                throw new GeminiException($"Failed to fetch music tags for weather: {ex.Message}");
+            } catch (Exception ex)
+            {
+                throw new Exception($"An unexpected error occured: {ex.Message}");
+            }
             string result = await response.Content.ReadAsStringAsync();
 
             return result;

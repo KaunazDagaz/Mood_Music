@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Mood_Music.Server.Exceptions;
 using Mood_Music.Server.Services;
 
 namespace Mood_Music.Server.Controllers
@@ -24,12 +25,24 @@ namespace Mood_Music.Server.Controllers
         [HttpGet("{city}")]
         public async Task<IActionResult> GetWeather(string city)
         {
-            var weatherData = await weatherService.GetCurrentWeatherAsync(city);
-            var tags = await geminiService.GetMusicTagsAsync(weatherData);
+            try
+            {
+                var weatherData = await weatherService.GetCurrentWeatherAsync(city);
+                var tags = await geminiService.GetMusicTagsAsync(weatherData);
 
-            memoryCache.Set(cacheKey, tags, TimeSpan.FromMinutes(1));
+                memoryCache.Set(cacheKey, tags, TimeSpan.FromMinutes(1));
 
-            return Ok(weatherData);
+                return Ok(weatherData);
+            } catch (WeatherException ex)
+            {
+                return StatusCode(502, new { message = ex.Message });
+            } catch (GeminiException ex) 
+            {
+                return StatusCode(502, new { message = ex.Message });
+            } catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpexted error occured", details = ex.Message });
+            }
         }
     }
 }
