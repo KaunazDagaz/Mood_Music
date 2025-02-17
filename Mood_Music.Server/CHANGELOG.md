@@ -1,3 +1,14 @@
+### version 0.3.2-pre-alpha
+
+- Moved tag fetching with GeminiService from WeatherController to LastFmController;
+- Added method to LastFmController that gets tags from frontend and fetch tracks;
+- Modified GeminiService to return only tags string (it returned full gemini response stringified before);
+
+### version 0.3.1-pre-alpha
+
+- Added custom exceptions classes for handling errors in services and controllers;
+- Modified controllers and services to try and catch exceptions and return error messages to the frontend;
+
 ## version 0.3.0-pre-alpha
 
 - Created service to work with Gemini API;

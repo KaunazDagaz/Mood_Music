@@ -51,9 +51,18 @@ namespace Mood_Music.Server.Services
             {
                 throw new Exception($"An unexpected error occured: {ex.Message}");
             }
+
             string result = await response.Content.ReadAsStringAsync();
 
-            return result;
+            return TagsParser(result);
+        }
+
+        private string TagsParser(string tags)
+        {
+            var jsonObject = JsonConvert.DeserializeObject<dynamic>(tags);
+            var tagText = jsonObject?.candidates[0].content.parts[0].text ?? string.Empty;
+
+            return tagText;
         }
     }
 }

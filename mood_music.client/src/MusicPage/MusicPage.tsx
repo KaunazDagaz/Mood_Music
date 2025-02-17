@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getTracksByTags } from "../api/lastFmApi";
+import { getTracksByTags, getTracksByUserTags } from "../api/lastFmApi";
 import { getWeather } from "../api/weatherApi";
 import LastFmMusic from "../LastFm/LastFmMusic";
 import { lastFmModel } from "../LastFm/lastFmUtils";
@@ -10,6 +10,7 @@ import Error from "../utils/Error/Error";
 const MusicPage = () => {
     const [weather, setWeather] = useState<weatherData | null>(null);
     const [tracks, setTracks] = useState<lastFmModel[]>([]);
+    const [tags, setTags] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
 
     const fetchWeather = async (city: string) => {
@@ -21,21 +22,36 @@ const MusicPage = () => {
             if (error.response && error.response.data && error.response.data.message) {
                 setError(error.response.data.message);
             } else {
-                setError('An error occurred while fetching the weather or tags.');
+                setError('An error occurred while fetching the weather.');
             }
         }
     };
 
     const fetchTracks = async () => {
         try {
-            const data = await getTracksByTags() as lastFmModel[];
+            const data = await getTracksByTags();
+            setTracks(data.tracks);
+            setTags(data.tags);
+            setError(null);
+        } catch (error: any) {
+            if (error.response && error.response.data && error.response.data.message) {
+                setError(error.response.data.message);
+            } else {
+                setError('An error occurred while fetching tags or tracks.');
+            }
+        }
+    };
+
+    const fetchUserTaggedTracks = async () => {
+        try {
+            const data = await getTracksByUserTags(tags);
             setTracks(data);
             setError(null);
         } catch (error: any) {
             if (error.response && error.response.data && error.response.data.message) {
                 setError(error.response.data.message);
             } else {
-                setError('An error occurred while fetching tracks.');
+                setError('An error occurred while fetching user tagged tracks.');
             }
         }
     };
@@ -50,7 +66,12 @@ const MusicPage = () => {
         <div>
             {error && <Error message={error} />}
             <Weather fetchWeather={fetchWeather} weather={weather} />
-            <LastFmMusic tracks={tracks} />
+            <LastFmMusic
+                setTags={setTags}
+                fetchUserTaggedTracks={fetchUserTaggedTracks}
+                tracks={tracks}
+                tags={tags}
+            />
         </div>
     );
 }
