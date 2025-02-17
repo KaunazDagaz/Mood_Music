@@ -1,3 +1,14 @@
+### version 0.3.2-pre-alpha
+
+- Added request to get track by tags user entered;
+- Modified LastFmMusic component to give user opportunity to modify tags himself;
+
+### version 0.3.1-pre-alpha
+
+- Added warning message for Edge users;
+- Added try-catch blocks to requests;
+- Added Error component for error displaying;
+
 ## version 0.3.0-pre-alpha
 
 - Created MusicPage component to display weather and music data;

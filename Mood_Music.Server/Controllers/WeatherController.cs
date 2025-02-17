@@ -10,15 +10,13 @@ namespace Mood_Music.Server.Controllers
     public class WeatherController : ControllerBase
     {
         private readonly WeatherService weatherService;
-        private readonly GeminiService geminiService;
         private readonly IMemoryCache memoryCache;
 
-        private const string cacheKey = "GeneratedMusicTags";
+        private const string cacheKey = "Weather";
 
-        public WeatherController(WeatherService weatherService, GeminiService geminiService, IMemoryCache memoryCache)
+        public WeatherController(WeatherService weatherService, IMemoryCache memoryCache)
         {
             this.weatherService = weatherService;
-            this.geminiService = geminiService;
             this.memoryCache = memoryCache;
         }
 
@@ -28,15 +26,11 @@ namespace Mood_Music.Server.Controllers
             try
             {
                 var weatherData = await weatherService.GetCurrentWeatherAsync(city);
-                var tags = await geminiService.GetMusicTagsAsync(weatherData);
 
-                memoryCache.Set(cacheKey, tags, TimeSpan.FromMinutes(1));
+                memoryCache.Set(cacheKey, weatherData, TimeSpan.FromMinutes(1));
 
                 return Ok(weatherData);
             } catch (WeatherException ex)
-            {
-                return StatusCode(502, new { message = ex.Message });
-            } catch (GeminiException ex) 
             {
                 return StatusCode(502, new { message = ex.Message });
             } catch (Exception ex)
