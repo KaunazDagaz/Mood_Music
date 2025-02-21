@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getTracksByTags, getTracksByUserTags } from "../api/lastFmApi";
-import { getWeather } from "../api/weatherApi";
+import { getWeather, getWeatherByLocation } from "../api/weatherApi";
 import LastFmMusic from "../LastFm/LastFmMusic";
 import { lastFmModel } from "../LastFm/lastFmUtils";
 import Weather from "../Weather/Weather";
@@ -23,6 +23,20 @@ const MusicPage = () => {
                 setError(error.response.data.message);
             } else {
                 setError('An error occurred while fetching the weather.');
+            }
+        }
+    };
+
+    const fetchWeatherByLocation = async (lat: number, lon: number) => {
+        try {
+            const data = await getWeatherByLocation(lat, lon) as weatherData;
+            setWeather(data);
+            setError(null);
+        } catch (error: any) {
+            if (error.response && error.response.data && error.response.data.message) {
+                setError(error.response.data.message);
+            } else {
+                setError('An error occurred while fetching the weather by location.');
             }
         }
     };
@@ -61,6 +75,21 @@ const MusicPage = () => {
             fetchTracks();
         }
     }, [weather]);
+
+    useEffect(() => {
+        let ignore = false;
+    
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                if (ignore) return; //prevent double calls in dev mode (because od strict mode). In prod should work fine without it
+                fetchWeatherByLocation(position.coords.latitude, position.coords.longitude);
+            },
+            (_: any) => setError('Unable to retrieve your location.')
+        );
+    
+        return () => { ignore = true; };
+    }, []);
+    
 
     return (
         <div>

@@ -40,6 +40,28 @@ namespace Mood_Music.Server.Services
             return WeatherParser(content);
         }
 
+        public async Task<WeatherModel> GetCurrentWeatherByLocationAsync(double lat, double lon)
+        {
+            var url = $"{baseUrl}/weather?lat={lat}&lon={lon}&appid={apiKey}&units=metric";
+            var response = await httpClient.GetAsync(url);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new WeatherException($"Failed to fetch weather data for {lat}, {lon}: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An unexpected error occured: {ex.Message}");
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            return WeatherParser(content);
+        }
+
         private WeatherModel WeatherParser(string content)
         {
             var weatherJson = JObject.Parse(content);
