@@ -1,3 +1,8 @@
+### version 0.3.3-pre-alpha
+
+- Added method to WeatherService to get weather by user location;
+- Added method to WeatherController to get weather by user location;
+
 ### version 0.3.2-pre-alpha
 
 - Moved tag fetching with GeminiService from WeatherController to LastFmController;

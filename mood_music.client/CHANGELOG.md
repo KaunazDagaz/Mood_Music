@@ -1,3 +1,8 @@
+### version 0.3.3-pre-alpha
+
+- Added request to get weather by user location;
+- Modified MusicPage to get weather by user location;
+
 ### version 0.3.2-pre-alpha
 
 - Added request to get track by tags user entered;

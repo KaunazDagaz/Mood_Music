@@ -38,5 +38,26 @@ namespace Mood_Music.Server.Controllers
                 return StatusCode(500, new { message = "An unexpexted error occured", details = ex.Message });
             }
         }
+
+        [HttpGet("location")]
+        public async Task<IActionResult> GetWeather([FromQuery] double lat, [FromQuery] double lon)
+        {
+            try
+            {
+                var weatherData = await weatherService.GetCurrentWeatherByLocationAsync(lat, lon);
+
+                memoryCache.Set(cacheKey, weatherData, TimeSpan.FromMinutes(1));
+
+                return Ok(weatherData);
+            }
+            catch (WeatherException ex)
+            {
+                return StatusCode(502, new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpexted error occured", details = ex.Message });
+            }
+        } 
     }
 }
