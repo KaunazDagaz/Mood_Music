@@ -1,3 +1,8 @@
+### version 0.3.4-pre-alpha
+- Added routing;
+- Added special LinkButton that can lead to specified component;
+- Added main page for different music search options (will be useful in the future);
+
 ### version 0.3.3-pre-alpha
 
 - Added request to get weather by user location;
