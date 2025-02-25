@@ -6,8 +6,9 @@ import { lastFmModel } from "../LastFm/lastFmUtils";
 import Weather from "../Weather/Weather";
 import { weatherData } from "../Weather/weatherUtils";
 import Error from "../utils/Error/Error";
+import "./WeatherMusicPage.css"
 
-const MusicPage = () => {
+const WeatherMusicPage = () => {
     const [weather, setWeather] = useState<weatherData | null>(null);
     const [tracks, setTracks] = useState<lastFmModel[]>([]);
     const [tags, setTags] = useState<string>('');
@@ -81,7 +82,7 @@ const MusicPage = () => {
     
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                if (ignore) return; //prevent double calls in dev mode (because od strict mode). In prod should work fine without it
+                if (ignore) return; //prevent double calls in dev mode (because of the strict mode). In prod should work fine without it
                 fetchWeatherByLocation(position.coords.latitude, position.coords.longitude);
             },
             (_: any) => setError('Unable to retrieve your location.')
@@ -92,7 +93,7 @@ const MusicPage = () => {
     
 
     return (
-        <div>
+        <div className="weather-music-page-container">
             {error && <Error message={error} />}
             <Weather fetchWeather={fetchWeather} weather={weather} />
             <LastFmMusic
@@ -105,4 +106,4 @@ const MusicPage = () => {
     );
 }
 
-export default MusicPage;
+export default WeatherMusicPage;
